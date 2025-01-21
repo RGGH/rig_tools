@@ -1,6 +1,6 @@
 use dotenv::dotenv;
 use rig::{completion::Prompt, providers::openai};
-use rig::{completion::ToolDefinition, tool::{Tool,ToolSet}};
+use rig::{completion::ToolDefinition, tool::Tool};
 use serde::{Deserialize, Serialize};
 use std::net::IpAddr;
 
@@ -51,7 +51,7 @@ impl Tool for Adder {
 }
 
 
-#[derive(Deserialize)]
+#[derive(Deserialize,Debug)]
 struct IpToolArgs {
     ip: String,
     subnet: Option<String>,
@@ -97,6 +97,7 @@ impl Tool for IpTool {
     }
 
     async fn call(&self, args: Self::Args) -> Result<Self::Output, Self::Error> {
+        println!("IpTool was called with args: {:?}", args);
         // Parse the IP address
         let ip: IpAddr = args.ip.parse().map_err(|_| IpToolError::InvalidIp)?;
 
@@ -148,19 +149,23 @@ async fn main() -> Result<(), anyhow::Error> {
 
     // Create agent with a single context prompt and two tools
     let calculator_agent = openai_client
-        .agent(openai::GPT_4O)
-        .preamble("You are a network engineer to help the user do ip networks. Use the tools provided to answer the user's question.")
-        .max_tokens(1024)
-        .tool(Adder)
-        .tool(IpTool)
-        .build();
+    .agent(openai::GPT_4O)
+    .preamble("You are a network engineer to help the user do IP networks. Always use the tools provided to validate IPs and subnets.")
+    .max_tokens(1024)
+    .tool(Adder)
+    .tool(IpTool)
+    .build();
+
 
     // Prompt the agent and print the response
-    println!("is 192.168.1.0 255.255.255.0 in 192.168.0.0?");
-    println!(
-        "network Agent: {}",
-        calculator_agent.prompt("is 192.168.1.1 valid and inside 192.168.0.0 255.255.0.0?").await?
-    );
+    println!("is 192.168.1.1 in 192.168.0.0/25?");
+    let response = calculator_agent
+    .prompt("is 192.168.1.1 in 192.168.0.0/25?")
+    .await?;
+
+    println!("");
+    println!("\t{}", response);
+
 
     Ok(())
 }
