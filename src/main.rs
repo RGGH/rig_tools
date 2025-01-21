@@ -1,9 +1,6 @@
 use dotenv::dotenv;
 use rig::{completion::Prompt, providers::openai};
-use rig::{
-    completion::ToolDefinition,
-    tool::{Tool, ToolSet},
-};
+use rig::{completion::ToolDefinition, tool::Tool};
 
 #[derive(serde::Deserialize)]
 struct AddArgs {
@@ -62,7 +59,7 @@ async fn main() -> Result<(), anyhow::Error> {
         .preamble("You are a calculator here to help the user perform arithmetic operations. Use the tools provided to answer the user's question.")
         .max_tokens(1024)
         .tool(Adder)
-//        .tool(Subtract)
+        // .tool(Subtract)
         .build();
 
     // Prompt the agent and print the response
@@ -73,4 +70,35 @@ async fn main() -> Result<(), anyhow::Error> {
     );
 
     Ok(())
+}
+
+#[tokio::test]
+async fn test_adder_tool() {
+    // Set up the Adder tool
+    let adder = Adder;
+
+    // Define test cases
+    let test_cases = vec![
+        (AddArgs { x: 2, y: 5 }, 7),
+        (AddArgs { x: -2, y: -3 }, -5),
+        (AddArgs { x: 0, y: 0 }, 0),
+    ];
+
+    // Run the test cases
+    for (args, expected) in test_cases {
+        let result = adder.call(args).await;
+        assert_eq!(result.unwrap(), expected);
+    }
+}
+
+#[tokio::test]
+async fn test_tool_definition() {
+    let adder = Adder;
+
+    // Check the tool definition to ensure it's correct
+    let definition = adder.definition("What is 2 + 5?".to_string()).await;
+    
+    assert_eq!(definition.name, "add");
+    assert_eq!(definition.description, "Add x and y together");
+    assert!(definition.parameters.is_object());
 }
