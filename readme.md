@@ -1,5 +1,5 @@
-# Agent + tools with OpenAI and Rig (Rust 🦀)
-[![Rust](https://github.com/RGGH/rig_tools/actions/workflows/rust.yml/badge.svg)](https://github.com/RGGH/rig_tools/actions/workflows/rust.yml)
+# Agent + tools with OpenAI and Rig (Rust 🦀) [![Rust](https://github.com/RGGH/rig_tools/actions/workflows/rust.yml/badge.svg)](https://github.com/RGGH/rig_tools/actions/workflows/rust.yml)
+
 ![image](https://github.com/user-attachments/assets/24713bc3-5512-43eb-9eb7-b9922a4c67b1)
 
 
