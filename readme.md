@@ -16,7 +16,7 @@ This project demonstrates how to create a simple calculator agent using OpenAI's
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/calculator-agent.git
+   git clone https://github.com/RGGH/rig_tools
    cd calculator-agent
    ```
 
