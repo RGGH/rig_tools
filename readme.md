@@ -9,7 +9,7 @@ The calculator agent can perform basic network operations using predefined *tool
 The aim is to understand tools so I can progress to automate some cool sh*t related to smart contracts.
 
 ## Features
-- A custom `IPtool` tool to perform addition of two integers.
+- A custom `IPtool` tool to perform check on whether an ip address is in the supernet.
 - Integration with OpenAI's GPT-4 via the Rig library.
 - Use of `.env` file for configuration.
 
@@ -43,7 +43,7 @@ The aim is to understand tools so I can progress to automate some cool sh*t rela
 
 ## Code Overview
 
-- **Adder Tool**: A simple tool that adds two numbers `x` and `y` passed as arguments.
+- **IpTool Tool**: A simple tool that checks ip address and supernet passed as arguments.
 - **OpenAI Client**: Connects to OpenAI's GPT-4, with the IpTool agent prompting the model to calculate sums using the `ip_in_subnet` tool.
 
 ### Example Output
