@@ -1,6 +1,8 @@
 use dotenv::dotenv;
 use rig::{completion::Prompt, providers::openai};
-use rig::{completion::ToolDefinition, tool::Tool};
+use rig::{completion::ToolDefinition, tool::{Tool,ToolSet}};
+use serde::{Deserialize, Serialize};
+use std::net::IpAddr;
 
 #[derive(serde::Deserialize)]
 struct AddArgs {
@@ -48,6 +50,97 @@ impl Tool for Adder {
     }
 }
 
+
+#[derive(Deserialize)]
+struct IpToolArgs {
+    ip: String,
+    subnet: Option<String>,
+}
+
+#[derive(Debug, thiserror::Error)]
+pub enum IpToolError {
+    #[error("Invalid IP address")]
+    InvalidIp,
+    #[error("Invalid subnet format")]
+    InvalidSubnet,
+}
+
+#[derive(Serialize, Deserialize)]
+struct IpTool;
+
+impl Tool for IpTool {
+    const NAME: &'static str = "ip_tool";
+
+    type Error = IpToolError;
+    type Args = IpToolArgs;
+    type Output = serde_json::Value;
+
+    async fn definition(&self, _prompt: String) -> ToolDefinition {
+        ToolDefinition {
+            name: "ip_tool".to_string(),
+            description: "Performs IP address-related tasks like validation, subnetting, etc.".to_string(),
+            parameters: serde_json::json!({
+                "type": "object",
+                "properties": {
+                    "ip": {
+                        "type": "string",
+                        "description": "The IP address to validate or analyze"
+                    },
+                    "subnet": {
+                        "type": "string",
+                        "description": "Optional subnet in CIDR format for additional checks"
+                    }
+                },
+                "required": ["ip"]
+            }),
+        }
+    }
+
+    async fn call(&self, args: Self::Args) -> Result<Self::Output, Self::Error> {
+        // Parse the IP address
+        let ip: IpAddr = args.ip.parse().map_err(|_| IpToolError::InvalidIp)?;
+
+        // Optional subnet validation
+        if let Some(subnet) = args.subnet {
+            if !subnet.contains('/') {
+                return Err(IpToolError::InvalidSubnet);
+            }
+            // Example: Check if IP belongs to subnet
+            if ip_in_subnet(&ip, &subnet) {
+                return Ok(serde_json::json!({
+                    "ip": ip.to_string(),
+                    "valid": true,
+                    "in_subnet": true
+                }));
+            } else {
+                return Ok(serde_json::json!({
+                    "ip": ip.to_string(),
+                    "valid": true,
+                    "in_subnet": false
+                }));
+            }
+        }
+
+        // If no subnet is provided, just validate the IP
+        Ok(serde_json::json!({
+            "ip": ip.to_string(),
+            "valid": true
+        }))
+    }
+}
+
+fn ip_in_subnet(ip: &IpAddr, subnet: &str) -> bool {
+    use ipnetwork::IpNetwork;
+
+    if let Ok(network) = subnet.parse::<IpNetwork>() {
+        network.contains(*ip)
+    } else {
+        false
+    }
+}
+
+
+
 #[tokio::main]
 async fn main() -> Result<(), anyhow::Error> {
     dotenv().ok(); // Load .env file into the environment
@@ -56,17 +149,17 @@ async fn main() -> Result<(), anyhow::Error> {
     // Create agent with a single context prompt and two tools
     let calculator_agent = openai_client
         .agent(openai::GPT_4O)
-        .preamble("You are a calculator here to help the user perform arithmetic operations. Use the tools provided to answer the user's question.")
+        .preamble("You are a network engineer to help the user do ip networks. Use the tools provided to answer the user's question.")
         .max_tokens(1024)
         .tool(Adder)
-        // .tool(Subtract)
+        .tool(IpTool)
         .build();
 
     // Prompt the agent and print the response
-    println!("Calculate 2 + 5");
+    println!("is 192.168.1.0 255.255.255.0 in 192.168.0.0?");
     println!(
-        "Calculator Agent: {}",
-        calculator_agent.prompt("Calculate 2 + 5").await?
+        "network Agent: {}",
+        calculator_agent.prompt("is 192.168.1.1 valid and inside 192.168.0.0 255.255.0.0?").await?
     );
 
     Ok(())
