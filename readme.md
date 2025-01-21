@@ -4,8 +4,8 @@
 
 
 Q. What does it do?
-A. It demonstrates how to create a simple IP network validator tool for an agent using OpenAI's GPT-4 model and the Rig library. 
-The calculator agent can perform basic network operations using predefined *tools*. 
+A. It demonstrates how to create a simple IP network validator tool for an agent using OpenAI's GPT-4 model and the Rig library. <br>
+The agent can perform basic network operations using predefined *tools*. <br>
 The aim is to understand tools so I can progress to automate some cool sh*t related to smart contracts.
 
 ## Features
