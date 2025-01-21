@@ -1,4 +1,4 @@
-# Calculator Agent with OpenAI and Rig
+# Calculator Agent with OpenAI and Rig (Rust 🦀)
 
 ![image](https://github.com/user-attachments/assets/4b2a9cc6-08d8-489e-919a-3575b4daf46e)
 
