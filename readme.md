@@ -4,11 +4,12 @@
 ![image](https://github.com/user-attachments/assets/b9166a6b-117e-4c71-95aa-083ce81df5ff)
 
 Q. What does it do?
-A. It demonstrates how to create a simple calculator agent using OpenAI's GPT-4 model and the Rig library. The calculator agent can perform basic arithmetic operations, such as addition, using predefined *tools*. 
+A. It demonstrates how to create a simple IP network validator tool for an agent using OpenAI's GPT-4 model and the Rig library. 
+The calculator agent can perform basic network operations using predefined *tools*. 
 The aim is to understand tools so I can progress to automate some cool sh*t related to smart contracts.
 
 ## Features
-- A custom `Adder` tool to perform addition of two integers.
+- A custom `IPtool` tool to perform addition of two integers.
 - Integration with OpenAI's GPT-4 via the Rig library.
 - Use of `.env` file for configuration.
 
@@ -43,12 +44,12 @@ The aim is to understand tools so I can progress to automate some cool sh*t rela
 ## Code Overview
 
 - **Adder Tool**: A simple tool that adds two numbers `x` and `y` passed as arguments.
-- **OpenAI Client**: Connects to OpenAI's GPT-4, with the calculator agent prompting the model to calculate sums using the `Adder` tool.
+- **OpenAI Client**: Connects to OpenAI's GPT-4, with the IpTool agent prompting the model to calculate sums using the `ip_in_subnet` tool.
 
 ### Example Output
 ```text
-Calculate 2 + 5
-Calculator Agent: 7
+is 192.168.1.0 255.255.255.0 in 192.168.0.0?
+network Agent: {"in_subnet":true,"ip":"192.168.1.1","valid":true}
 ```
 
 ## License
