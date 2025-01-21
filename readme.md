@@ -1,5 +1,7 @@
 # Calculator Agent with OpenAI and Rig
 
+![image](https://github.com/user-attachments/assets/4b2a9cc6-08d8-489e-919a-3575b4daf46e)
+
 Q. What does it do?
 A. It demonstrates how to create a simple calculator agent using OpenAI's GPT-4 model and the Rig library. The calculator agent can perform basic arithmetic operations, such as addition, using predefined *tools*. The aim is to understand tools so I can progress to automate some cool sh*t related to smart contracts.
 
