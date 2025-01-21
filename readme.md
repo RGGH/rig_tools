@@ -1,7 +1,7 @@
 # Agent + tools with OpenAI and Rig (Rust 🦀)
 [![Rust](https://github.com/RGGH/rig_tools/actions/workflows/rust.yml/badge.svg)](https://github.com/RGGH/rig_tools/actions/workflows/rust.yml)
+![image](https://github.com/user-attachments/assets/24713bc3-5512-43eb-9eb7-b9922a4c67b1)
 
-![image](https://github.com/user-attachments/assets/b9166a6b-117e-4c71-95aa-083ce81df5ff)
 
 Q. What does it do?
 A. It demonstrates how to create a simple IP network validator tool for an agent using OpenAI's GPT-4 model and the Rig library. 
