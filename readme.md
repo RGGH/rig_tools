@@ -1,4 +1,4 @@
-# Calculator Agent with OpenAI and Rig (Rust 🦀)
+# Agent + tools with OpenAI and Rig (Rust 🦀)
 [![Rust](https://github.com/RGGH/rig_tools/actions/workflows/rust.yml/badge.svg)](https://github.com/RGGH/rig_tools/actions/workflows/rust.yml)
 
 ![image](https://github.com/user-attachments/assets/b9166a6b-117e-4c71-95aa-083ce81df5ff)
