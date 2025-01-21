@@ -43,8 +43,8 @@ The aim is to understand tools so I can progress to automate some cool sh*t rela
 
 ## Code Overview
 
-- **IpTool Tool**: A simple tool that checks ip address and supernet passed as arguments.
-- **OpenAI Client**: Connects to OpenAI's GPT-4, with the IpTool agent prompting the model to calculate sums using the `ip_in_subnet` tool.
+- **IpTool Tool**: A simple tool that checks a host ip address against a supernet passed as arguments.
+- **OpenAI Client**: Connects to OpenAI's GPT-4, with the IpTool agent prompting the model to verify the host address using the `ip_in_subnet` tool.
 
 ### Example Output
 ```text
